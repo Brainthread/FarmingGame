@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwx3if5m44ve8"]
+[gd_scene load_steps=3 format=3 uid="uid://cwx3if5m44ve8"]
 
 [ext_resource type="Texture2D" uid="uid://bfwttmthyqyq0" path="res://icon.svg" id="1_savv2"]
+[ext_resource type="Script" path="res://Scripts/Player/States/Player_Idle.gd" id="2_c8rnq"]
 
 [node name="Player" type="Node2D"]
 
@@ -8,3 +9,6 @@
 texture = ExtResource("1_savv2")
 
 [node name="StateMachine" type="Node2D" parent="."]
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("2_c8rnq")
