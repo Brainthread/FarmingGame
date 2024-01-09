@@ -1,14 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwx3if5m44ve8"]
+[gd_scene load_steps=5 format=3 uid="uid://cwx3if5m44ve8"]
 
-[ext_resource type="Texture2D" uid="uid://bfwttmthyqyq0" path="res://icon.svg" id="1_savv2"]
-[ext_resource type="Script" path="res://Scripts/Player/States/Player_Idle.gd" id="2_c8rnq"]
+[ext_resource type="Texture2D" uid="uid://1pueoxa6ih0v" path="res://Sprites/Player.png" id="1_sh5yg"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/FiniteStateMachine.gd" id="2_1ic7f"]
+[ext_resource type="Script" path="res://Scripts/Player/States/IdleAndMove.gd" id="3_pui5a"]
 
-[node name="Player" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2rg7v"]
+
+[node name="Player" type="CharacterBody2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_savv2")
+texture_filter = 1
+texture = ExtResource("1_sh5yg")
 
-[node name="StateMachine" type="Node2D" parent="."]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "root")]
+script = ExtResource("2_1ic7f")
+current_state = NodePath("IdleAndMove")
+root = NodePath("..")
 
-[node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("2_c8rnq")
+[node name="IdleAndMove" type="Node" parent="StateMachine"]
+script = ExtResource("3_pui5a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2rg7v")
