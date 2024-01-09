@@ -1,12 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://dq52srwlt7r3v"]
+[gd_scene load_steps=5 format=3 uid="uid://dq52srwlt7r3v"]
 
 [ext_resource type="PackedScene" uid="uid://cwx3if5m44ve8" path="res://Scenes/Objects/player.tscn" id="1_7qiwv"]
 [ext_resource type="Script" path="res://Scripts/CameraFollow.gd" id="2_a2cq5"]
+[ext_resource type="Texture2D" uid="uid://bxiiupwn2yios" path="res://Imported/Textures/Floor.png" id="3_ms2g7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ihfwf"]
+size = Vector2(32, 18)
 
 [node name="TestScene" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_7qiwv")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
 zoom = Vector2(3, 3)
 script = ExtResource("2_a2cq5")
+target = NodePath("../Player")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(1, 42)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_ihfwf")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("3_ms2g7")
