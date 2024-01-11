@@ -29,6 +29,7 @@ func _state_physics_update(_delta: float):
 	_move_character(_delta)
 	pass
 
+
 func _handle_input():
 	_input_direction = Vector2(
 			Input.get_action_strength("Right") - Input.get_action_strength("Left"), 

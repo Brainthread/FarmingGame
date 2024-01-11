@@ -2,28 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://1pueoxa6ih0v" path="res://Sprites/Player.png" id="1_37bka"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/FiniteStateMachine.gd" id="2_1ic7f"]
-[ext_resource type="Script" path="res://Scripts/Spraygun.gd" id="2_2q2cc"]
-[ext_resource type="Texture2D" uid="uid://bfwttmthyqyq0" path="res://icon.svg" id="3_lkg5k"]
+[ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/HealthComponent.gd" id="3_neiuy"]
 [ext_resource type="Script" path="res://Scripts/Player/States/IdleAndMove.gd" id="3_pui5a"]
+[ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/Hitbox.gd" id="4_k7d8w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4cju8"]
 radius = 8.01561
 
 [node name="Player" type="CharacterBody2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-texture = ExtResource("1_37bka")
-
-[node name="Spraygun" type="Node2D" parent="."]
-position = Vector2(5, -6)
-script = ExtResource("2_2q2cc")
-
-[node name="Sprite2D" type="Sprite2D" parent="Spraygun"]
-position = Vector2(0, 1)
-scale = Vector2(0.1, 0.02)
-texture = ExtResource("3_lkg5k")
-offset = Vector2(52, 0)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "root")]
 script = ExtResource("2_1ic7f")
@@ -34,6 +20,16 @@ root = NodePath("..")
 script = ExtResource("3_pui5a")
 _acceleration = 60000.0
 _direction_change_modifier = 4
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_neiuy")
+
+[node name="Hitbox" type="Node" parent="."]
+script = ExtResource("4_k7d8w")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_37bka")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5.5)

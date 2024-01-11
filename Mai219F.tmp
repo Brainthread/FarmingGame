@@ -1,13 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://dq52srwlt7r3v"]
+[gd_scene load_steps=8 format=3 uid="uid://dq52srwlt7r3v"]
 
 [ext_resource type="PackedScene" uid="uid://cwx3if5m44ve8" path="res://Scenes/Objects/player.tscn" id="1_7qiwv"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Camera/CameraFollow.gd" id="2_f8se2"]
 [ext_resource type="Texture2D" uid="uid://bxiiupwn2yios" path="res://Imported/Textures/Floor.png" id="3_ms2g7"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/InventoryManager.gd" id="4_nohhe"]
-[ext_resource type="PackedScene" uid="uid://c1gyvagmoq38c" path="res://Scenes/UI/InventoryPanel.tscn" id="5_wipeq"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Inventory.gd" id="5_x0v54"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ihfwf"]
 size = Vector2(32, 18)
+
+[sub_resource type="Resource" id="Resource_y10v4"]
+script = ExtResource("5_x0v54")
+items = Array[Object]([])
 
 [node name="TestScene" type="Node2D"]
 
@@ -28,26 +32,6 @@ shape = SubResource("RectangleShape2D_ihfwf")
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 texture = ExtResource("3_ms2g7")
 
-[node name="PlayerInventoryManager" type="Node" parent="." node_paths=PackedStringArray("inventory_panel")]
+[node name="InventoryManager" type="Node" parent="."]
 script = ExtResource("4_nohhe")
-inventory_size = 15
-inventory_panel = NodePath("../UI/InventoryHolder/Inventory")
-
-[node name="UI" type="CanvasLayer" parent="."]
-
-[node name="InventoryHolder" type="Control" parent="UI"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 10.0
-offset_bottom = 10.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="Inventory" parent="UI/InventoryHolder" instance=ExtResource("5_wipeq")]
-layout_mode = 0
+inventory = SubResource("Resource_y10v4")

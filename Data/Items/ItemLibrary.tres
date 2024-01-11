@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemLibrary" load_steps=5 format=3 uid="uid://dvqntahrnjir0"]
+
+[ext_resource type="Texture2D" uid="uid://dfnnt1hb4xkly" path="res://Imported/Textures/Seedbag_a.png" id="1_l1nkw"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/ItemData.gd" id="1_oltbl"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/ItemLibrary.gd" id="2_xk1o7"]
+
+[sub_resource type="Resource" id="Resource_ke3x3"]
+resource_name = "Suspicious Seedbag"
+script = ExtResource("1_oltbl")
+name = "Suspicious Seedbag"
+icon = ExtResource("1_l1nkw")
+description = "Hmmmm... You shouldn't have this"
+stackable = true
+max_stack_size = 99
+value = 0
+item_type = 0
+
+[resource]
+script = ExtResource("2_xk1o7")
+items = Array[ExtResource("1_oltbl")]([SubResource("Resource_ke3x3")])

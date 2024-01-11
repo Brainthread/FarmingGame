@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Inventory" load_steps=7 format=3 uid="uid://xfgy2c0mnrsv"]
+
+[ext_resource type="Texture2D" uid="uid://f0e0w5u1smnv" path="res://Imported/Textures/Seedbag_m.png" id="1_20i8p"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/ItemData.gd" id="1_k0b2e"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/Inventory.gd" id="1_v522i"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/InventorySlot.gd" id="2_jl3fl"]
+
+[sub_resource type="Resource" id="Resource_7mvgf"]
+script = ExtResource("1_k0b2e")
+name = "Bapple"
+icon = ExtResource("1_20i8p")
+description = "Bopple"
+stackable = true
+max_stack_size = 99
+value = 0
+item_type = 0
+
+[sub_resource type="Resource" id="Resource_qfe0k"]
+script = ExtResource("2_jl3fl")
+item_data = SubResource("Resource_7mvgf")
+stack_count = 0
+
+[resource]
+script = ExtResource("1_v522i")
+items = Array[ExtResource("2_jl3fl")]([null, null, null, null, null, null, SubResource("Resource_qfe0k"), null, null, null])
