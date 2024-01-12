@@ -36,7 +36,7 @@ func _handle_input():
 			Input.get_action_strength("Down") - Input.get_action_strength("Up"))
 	_input_direction = _input_direction.normalized()
 	_input_sprint = true if Input.get_action_strength("Sprint") else false
-
+		
 
 func _move_character(_delta: float):
 	var _direction_change_coefficient = 1

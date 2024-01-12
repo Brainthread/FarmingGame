@@ -1,22 +1,62 @@
 extends Resource
 class_name Inventory
 
+signal inventory_interact(inventory: Inventory, index:int, button:int)
+signal inventory_update(inventory:Inventory)
+signal inventory_update_cell(data:InventorySlot, index:int)
 
 @export var items: Array[InventorySlot]
 var _size:int
 const _library_path = "res://Data/Items/ItemLibrary.tres"
 var _library:ItemLibrary
 
+func grab_slot(index:int) -> InventorySlot:
+	var slot_data = items[index]
+	if slot_data:
+		items[index] = null
+		inventory_update.emit(self)
+		return slot_data
+	else:
+		return null
+
+func drop_slot(index:int, grabbed_slot:InventorySlot):
+	if grabbed_slot and grabbed_slot.item_data:
+		items[index] = grabbed_slot
+		inventory_update.emit(self)
+
+func stack_space_for_item(index, item):
+	if items[index] == null:
+		return item.max_stack_size
+	elif items[index].item_data == item:
+		return items[index].item_data.max_stack_size - items[index].stack_count
+	return 0
+
+func add_item_to_slot(index, item, count):
+	if items[index] == null:
+		initialize_slot(index)
+		items[index].item_data = item
+		items[index].stack_count = min(count, item.max_stack_size)
+	elif items[index].item_data == item and \
+			items[index].stack_count < items[index].item_data.max_stack_size:
+		items[index].stack_count += count
+		items[index].stack_count = min(items[index].stack_count, item.max_stack_size)
+	inventory_update.emit(self)
+
+func on_slot_clicked(index: int, button:int):
+	print("clicked " + str(index) + " with button " + str(button))
+	inventory_interact.emit(self, index, button)
 
 func initialize_inventory(size:int):
 	_library = load(_library_path)
 	_size = size
 	items.resize(size)
 	for n in size:
-		items[n] = InventorySlot.new()
-		items[n].stack_count = 0
-		items[n].item_data = null
+		initialize_slot(n)
 
+func initialize_slot (index:int):
+	items[index] = InventorySlot.new()
+	items[index].stack_count = 0
+	items[index].item_data = null
 
 func add_item (item:ItemData, count:int):
 	for slot in items:
@@ -31,6 +71,8 @@ func add_item (item:ItemData, count:int):
 			slot.stack_count += min(count, available_space)
 			count = max(count - available_space, 0)
 
+func add_item_at (item:ItemData, count:int, index:int):
+	pass
 
 func set_item (position:int, item:ItemData, count:int):
 	if position < _size and position >= 0:

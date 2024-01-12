@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cwx3if5m44ve8"]
+[gd_scene load_steps=8 format=3 uid="uid://cwx3if5m44ve8"]
 
 [ext_resource type="Texture2D" uid="uid://1pueoxa6ih0v" path="res://Sprites/Player.png" id="1_37bka"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/PlayerInventoryManager.gd" id="1_r8lmr"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/FiniteStateMachine.gd" id="2_1ic7f"]
 [ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/HealthComponent.gd" id="3_neiuy"]
 [ext_resource type="Script" path="res://Scripts/Player/States/IdleAndMove.gd" id="3_pui5a"]
@@ -10,6 +11,10 @@
 radius = 8.01561
 
 [node name="Player" type="CharacterBody2D"]
+
+[node name="PlayerInventoryManager" type="Node" parent="."]
+script = ExtResource("1_r8lmr")
+inventory_size = 15
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "root")]
 script = ExtResource("2_1ic7f")
