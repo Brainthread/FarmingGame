@@ -36,4 +36,4 @@ stack_count = 33
 
 [resource]
 script = ExtResource("1_v522i")
-items = Array[ExtResource("2_jl3fl")]([null, null, null, null, null, SubResource("Resource_0wy36"), SubResource("Resource_qfe0k"), null, null, null])
+items = Array[ExtResource("2_jl3fl")]([null, null, null, null, null, SubResource("Resource_0wy36"), SubResource("Resource_qfe0k"), null, null, null, null, null, null, null, null])
