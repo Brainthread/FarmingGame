@@ -29,8 +29,14 @@ _direction_change_modifier = 4
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_neiuy")
 
-[node name="Hitbox" type="Node" parent="."]
+[node name="Hurtbox" type="Node" parent="HealthComponent"]
 script = ExtResource("4_k7d8w")
+
+[node name="MeleeComponent" type="Node" parent="."]
+
+[node name="HarvestingComponent" type="Node" parent="."]
+
+[node name="RangedComponent" type="Node" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

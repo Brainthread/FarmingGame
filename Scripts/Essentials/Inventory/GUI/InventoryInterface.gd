@@ -7,7 +7,7 @@ class_name InventoryInterface
 @onready var grabbed_ui_slot:PanelContainer = $Inventory/GrabbedSlot
 @export var mouse_offset:Vector2 = Vector2(5,5)
 
-var _is_active = false
+var _is_active = true
 var _is_initialized = false
 
 var grabbed_slot: InventorySlot = InventorySlot.new()
@@ -19,6 +19,7 @@ func _process(delta):
 	if grabbed_ui_slot.visible:
 		grabbed_ui_slot.global_position = get_global_mouse_position() + mouse_offset
 
+#handle click interaction with inventory
 func on_inventory_interact(inventory: Inventory, index:int, button:int):
 	match [grabbed_slot.item_data, button]:
 		[null, MOUSE_BUTTON_LEFT]:
@@ -55,10 +56,19 @@ func initialize():
 	_is_initialized = true
 
 func toggle_inventory_holder_visibility():
-	inventory_holder.visible = not inventory_holder.visible
+	if _is_active:
+		inventory_holder.visible = not inventory_holder.visible
 	
 func toggle_hotbar_visibility():
-	hotbar_panel.visible = not hotbar_panel.visible
+	if _is_active:
+		hotbar_panel.visible = not hotbar_panel.visible
+	
+func set_inventory_visibility(value:bool):
+	inventory_holder.visible = value
+	hotbar_panel.visible = value
+	_is_active = value
+	if _is_active:
+		toggle_inventory_holder_visibility()
 
 func set_player_inventory_data(player_inventory:Inventory):
 	if not _is_initialized:
@@ -66,8 +76,6 @@ func set_player_inventory_data(player_inventory:Inventory):
 	player_inventory.inventory_interact.connect(on_inventory_interact)
 	inventory_panel.set_inventory_data(player_inventory)
 	hotbar_panel.set_inventory_data(player_inventory)
-
-
 
 func _ready():
 	initialize()

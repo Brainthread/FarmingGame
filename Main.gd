@@ -12,6 +12,7 @@ func _ready():
 	inventory_interface.toggle_hotbar_visibility()
 	player_inventory.initialize_inventory()
 	inventory_manager.toggle_inventory.connect(toggle_inventory_interface)
+	inventory_manager.set_inventory_and_hotbar_visibility.connect(set_inventory_visibility)
 	inventory_interface.set_player_inventory_data(player_inventory)
 	_set_inventory_icons()
 
@@ -23,3 +24,6 @@ func _set_inventory_icons():
 func toggle_inventory_interface():
 	inventory_interface.toggle_inventory_holder_visibility()
 	inventory_interface.toggle_hotbar_visibility()
+	
+func set_inventory_visibility(value: bool):
+	inventory_interface.set_inventory_visibility(value)

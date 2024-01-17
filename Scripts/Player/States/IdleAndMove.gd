@@ -9,6 +9,9 @@ var _body:CharacterBody2D
 @export var _direction_change_modifier = 3
 var _movement_velocity:Vector2 = Vector2()
 
+@onready var player_inventory_manager = $"../../PlayerInventoryManager"
+@export var _battle_mode:bool = false
+
 func _initialize_state(stateMachine_node:FiniteStateMachine, root_node:Node2D):
 	super(stateMachine_node, root_node)
 	if not root is CharacterBody2D:
@@ -23,6 +26,7 @@ func _exit_state():
 
 func _state_update(_delta: float):
 	_handle_input()
+	_handle_actions(_delta)
 	pass
 
 func _state_physics_update(_delta: float):
@@ -36,7 +40,13 @@ func _handle_input():
 			Input.get_action_strength("Down") - Input.get_action_strength("Up"))
 	_input_direction = _input_direction.normalized()
 	_input_sprint = true if Input.get_action_strength("Sprint") else false
+	if Input.is_action_just_pressed("Combat Mode"):
+		_toggle_combat_mode()
 		
+
+func _toggle_combat_mode():
+	_battle_mode = not _battle_mode
+	player_inventory_manager.set_inventory_availability(not _battle_mode)
 
 func _move_character(_delta: float):
 	var _direction_change_coefficient = 1
@@ -50,3 +60,11 @@ func _move_character(_delta: float):
 	
 	_body.velocity = _delta * _movement_velocity
 	_body.move_and_slide()
+	
+func _handle_actions(_delta: float):
+	if _battle_mode:
+		pass
+	else:
+		pass
+	
+
