@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cwx3if5m44ve8"]
+[gd_scene load_steps=10 format=3 uid="uid://cwx3if5m44ve8"]
 
 [ext_resource type="Texture2D" uid="uid://1pueoxa6ih0v" path="res://Sprites/Player.png" id="1_37bka"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/PlayerInventoryManager.gd" id="1_r8lmr"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/FiniteStateMachine.gd" id="2_1ic7f"]
+[ext_resource type="Resource" uid="uid://xfgy2c0mnrsv" path="res://test/Testinventory.tres" id="2_70m65"]
+[ext_resource type="Script" path="res://Scripts/Player/PlayerItemInteractionManager.gd" id="3_2ko66"]
 [ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/HealthComponent.gd" id="3_neiuy"]
 [ext_resource type="Script" path="res://Scripts/Player/States/IdleAndMove.gd" id="3_pui5a"]
 [ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/Hitbox.gd" id="4_k7d8w"]
@@ -14,7 +16,19 @@ radius = 8.01561
 
 [node name="PlayerInventoryManager" type="Node" parent="."]
 script = ExtResource("1_r8lmr")
+inventory = ExtResource("2_70m65")
 inventory_size = 15
+
+[node name="ItemInteractionManager" type="Node" parent="PlayerInventoryManager"]
+script = ExtResource("3_2ko66")
+
+[node name="HarvestingComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+
+[node name="MeleeComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+
+[node name="RangedComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+
+[node name="PlantingComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "root")]
 script = ExtResource("2_1ic7f")
@@ -31,12 +45,6 @@ script = ExtResource("3_neiuy")
 
 [node name="Hurtbox" type="Node" parent="HealthComponent"]
 script = ExtResource("4_k7d8w")
-
-[node name="MeleeComponent" type="Node" parent="."]
-
-[node name="HarvestingComponent" type="Node" parent="."]
-
-[node name="RangedComponent" type="Node" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

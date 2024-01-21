@@ -33,8 +33,6 @@ func set_slot_background_icon(index:int, icon:Texture2D):
 		slot.set_slot_background(icon)
 
 
-
-
 #should only be used in initialization
 func populate_item_grid(inventory:Inventory):
 	var slot_datas = inventory.items	

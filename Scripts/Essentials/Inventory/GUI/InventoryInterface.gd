@@ -5,15 +5,24 @@ class_name InventoryInterface
 @onready var inventory_holder:Node2D = $Inventory
 @onready var hotbar_panel = $Hotbar
 @onready var grabbed_ui_slot:PanelContainer = $Inventory/GrabbedSlot
+@onready var trash_panel:PanelContainer = $Inventory/TrashPanel
 @export var mouse_offset:Vector2 = Vector2(5,5)
+@export var selected_hotbar_icon:Texture2D
+@export var trash_icon:Texture2D
+
+var trash_inventory
+
+var inventories:Array[Inventory]
+var inventorypanel:Array[InventoryPanel]
 
 var _is_active = true
 var _is_initialized = false
+var active_item_index = -1
 
 var grabbed_slot: InventorySlot = InventorySlot.new()
 
-func set_active(value:bool):
-	_is_active = value
+func _ready():
+	initialize()
 
 func _process(delta):
 	if grabbed_ui_slot.visible:
@@ -27,6 +36,8 @@ func on_inventory_interact(inventory: Inventory, index:int, button:int):
 		[null, MOUSE_BUTTON_RIGHT]:
 			print("What do you want me to do???")
 		[_, MOUSE_BUTTON_LEFT]:
+			if inventory == trash_inventory:
+				inventory.clear_slot(index)
 			grabbed_slot = inventory.drop_slot(index, grabbed_slot)
 		[_, MOUSE_BUTTON_RIGHT]:
 			if inventory.stack_space_for_item(index, grabbed_slot.item_data) > 0:
@@ -36,8 +47,19 @@ func on_inventory_interact(inventory: Inventory, index:int, button:int):
 					grabbed_slot.item_data = null
 	update_grabbed_slot()
 
+
+func on_set_active_inventory_item(index:int):
+	if active_item_index >= 0:
+		set_hotbar_background_icon(active_item_index, null)
+	if index >= 0:
+		set_hotbar_background_icon(index, selected_hotbar_icon)
+	active_item_index = index
+
 func set_slot_background_icon(index:int, icon:Texture2D):
 	inventory_panel.set_slot_background_icon(index, icon)
+
+func set_hotbar_background_icon(index:int, icon:Texture2D):
+	hotbar_panel.set_slot_background_icon(index, icon)
 	
 func update_grabbed_slot():
 	if grabbed_slot.item_data:
@@ -53,6 +75,7 @@ func initialize():
 	if not inventory_panel:
 		push_error("No inventory UI assigned")
 	inventory_panel.initialize()
+	trash_panel.initialize()
 	_is_initialized = true
 
 func toggle_inventory_holder_visibility():
@@ -70,12 +93,19 @@ func set_inventory_visibility(value:bool):
 	if _is_active:
 		toggle_inventory_holder_visibility()
 
+func set_trash_inventory_data():
+	trash_inventory = Inventory.new()
+	trash_inventory.items.insert(0, InventorySlot.new())
+	set_inventory_data(trash_inventory, trash_panel)
+	trash_panel.set_slot_background_icon(0, trash_icon)
+
 func set_player_inventory_data(player_inventory:Inventory):
-	if not _is_initialized:
-		initialize()
-	player_inventory.inventory_interact.connect(on_inventory_interact)
-	inventory_panel.set_inventory_data(player_inventory)
+	set_inventory_data(player_inventory, inventory_panel)
 	hotbar_panel.set_inventory_data(player_inventory)
 
-func _ready():
-	initialize()
+func set_inventory_data(inventory: Inventory, target_panel:InventoryPanel):
+	inventory.inventory_interact.connect(on_inventory_interact)
+	target_panel.set_inventory_data(inventory)
+
+
+

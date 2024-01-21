@@ -18,6 +18,9 @@ func grab_slot(index:int) -> InventorySlot:
 	inventory_update_cell.emit(items[index], index)
 	return slot_data
 
+func get_slot(index:int) -> InventorySlot:
+	return items[index]
+
 func clear_slot (index:int):
 	items[index].item_data = null
 	items[index].stack_count = 0
