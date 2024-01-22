@@ -6,6 +6,7 @@ class_name InventoryInterface
 @onready var hotbar_panel = $Hotbar
 @onready var grabbed_ui_slot:PanelContainer = $Inventory/GrabbedSlot
 @onready var trash_panel:PanelContainer = $Inventory/TrashPanel
+
 @export var mouse_offset:Vector2 = Vector2(5,5)
 @export var selected_hotbar_icon:Texture2D
 @export var trash_icon:Texture2D
@@ -15,11 +16,13 @@ var trash_inventory
 var inventories:Array[Inventory]
 var inventorypanel:Array[InventoryPanel]
 
+
 var _is_active = true
 var _is_initialized = false
 var active_item_index = -1
 
 var grabbed_slot: InventorySlot = InventorySlot.new()
+var _former_grabbed_slot:InventorySlot
 
 func _ready():
 	initialize()
@@ -28,15 +31,30 @@ func _process(delta):
 	if grabbed_ui_slot.visible:
 		grabbed_ui_slot.global_position = get_global_mouse_position() + mouse_offset
 
+func _exit_inventory_panel():
+	print("EXIT")
+	if grabbed_slot.item_data and _former_grabbed_slot:
+		if _former_grabbed_slot.item_data == grabbed_slot.item_data:
+			var addable = grabbed_slot.item_data.max_stack_size - _former_grabbed_slot.stack_count
+			_former_grabbed_slot.stack_count = min(grabbed_slot.stack_count, addable)
+			grabbed_slot.stack_count = max(grabbed_slot.stack_count-addable, 0) 
+		if not _former_grabbed_slot.item_data:
+			_former_grabbed_slot.item_data = grabbed_slot.item_data
+			_former_grabbed_slot.stack_count = grabbed_slot.stack_count
+		grabbed_slot.item_data = null
+	update_grabbed_slot()
+	pass
+
 #handle click interaction with inventory
 func on_inventory_interact(inventory: Inventory, index:int, button:int):
 	match [grabbed_slot.item_data, button]:
 		[null, MOUSE_BUTTON_LEFT]:
 			grabbed_slot = inventory.grab_slot(index)
+			_former_grabbed_slot = inventory.get_slot(index)
 		[null, MOUSE_BUTTON_RIGHT]:
 			print("What do you want me to do???")
 		[_, MOUSE_BUTTON_LEFT]:
-			if inventory == trash_inventory:
+			if inventory == trash_inventory && inventory.stack_space_for_item(index, grabbed_slot.item_data) == 0:
 				inventory.clear_slot(index)
 			grabbed_slot = inventory.drop_slot(index, grabbed_slot)
 		[_, MOUSE_BUTTON_RIGHT]:
@@ -46,7 +64,6 @@ func on_inventory_interact(inventory: Inventory, index:int, button:int):
 				if grabbed_slot.stack_count == 0:
 					grabbed_slot.item_data = null
 	update_grabbed_slot()
-
 
 func on_set_active_inventory_item(index:int):
 	if active_item_index >= 0:
@@ -81,6 +98,8 @@ func initialize():
 func toggle_inventory_holder_visibility():
 	if _is_active:
 		inventory_holder.visible = not inventory_holder.visible
+		if inventory_holder.visible == false:
+			_exit_inventory_panel()
 	
 func toggle_hotbar_visibility():
 	if _is_active:
@@ -94,8 +113,9 @@ func set_inventory_visibility(value:bool):
 		toggle_inventory_holder_visibility()
 
 func set_trash_inventory_data():
-	trash_inventory = Inventory.new()
-	trash_inventory.items.insert(0, InventorySlot.new())
+	if not trash_inventory:
+		trash_inventory = Inventory.new()
+		trash_inventory.items.insert(0, InventorySlot.new())
 	set_inventory_data(trash_inventory, trash_panel)
 	trash_panel.set_slot_background_icon(0, trash_icon)
 

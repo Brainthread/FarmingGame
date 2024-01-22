@@ -21,14 +21,21 @@ func _ready():
 	
 	_set_inventory_icons()
 	
-
 func _set_inventory_icons():
 	for i in 5:
 		inventory_interface.set_slot_background_icon(i, hotbar_icon)
 
+func reload_inventory():
+	inventory_interface.set_player_inventory_data(player_inventory)
+	inventory_interface.set_trash_inventory_data()
+	_set_inventory_icons()
+
 func toggle_inventory_interface():
 	inventory_interface.toggle_inventory_holder_visibility()
 	inventory_interface.toggle_hotbar_visibility()
+	reload_inventory()
 	
 func set_inventory_visibility(value: bool):
 	inventory_interface.set_inventory_visibility(value)
+	inventory_interface.set_player_inventory_data(player_inventory)
+	reload_inventory()
