@@ -15,22 +15,23 @@ radius = 7.0
 
 [node name="Player" type="CharacterBody2D"]
 
-[node name="PlayerInventoryManager" type="Node" parent="."]
+[node name="PlayerInventoryManager" type="Node2D" parent="."]
 script = ExtResource("1_r8lmr")
 inventory = ExtResource("2_70m65")
 inventory_size = 15
 
-[node name="ItemInteractionManager" type="Node" parent="PlayerInventoryManager"]
+[node name="ItemInteractionManager" type="Node2D" parent="PlayerInventoryManager"]
 script = ExtResource("3_2ko66")
 
-[node name="HarvestingComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+[node name="HarvestingComponent" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
 
-[node name="MeleeComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+[node name="MeleeComponent" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
 
-[node name="RangedComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+[node name="RangedComponent" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
 
-[node name="Placement" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+[node name="Placement" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
 script = ExtResource("4_suw85")
+build_range = 32.0
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "root")]
 script = ExtResource("2_1ic7f")

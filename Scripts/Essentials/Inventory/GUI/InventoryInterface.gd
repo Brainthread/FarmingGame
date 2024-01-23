@@ -109,7 +109,6 @@ func update_grabbed_slot():
 func is_active():
 	return is_active
 
-
 func toggle_inventory_holder_visibility():
 	if _is_active:
 		inventory_holder.visible = not inventory_holder.visible

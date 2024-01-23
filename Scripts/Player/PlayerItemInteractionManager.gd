@@ -33,4 +33,8 @@ func holding_valid_item(_itemSlot:InventorySlot):
 		held_state.holding_update()
 
 func _input(_event):
-	pass
+		if _event is InputEventMouseButton and \
+				_event.button_index == MOUSE_BUTTON_LEFT and \
+				held_state:
+			held_state.use()
+
