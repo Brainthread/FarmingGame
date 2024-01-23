@@ -4,6 +4,7 @@ class_name PlayerInventoryManager
 signal toggle_inventory
 signal set_inventory_and_hotbar_visibility
 signal set_active_inventory_slot
+signal set_active_item
 
 @export var inventory:Inventory
 @export var inventory_size:int = 10
@@ -15,11 +16,14 @@ var enabled = true
 
 @onready var item_interaction_manager = $ItemInteractionManager
 
+func _ready():
+	set_active_item.connect(item_interaction_manager.on_new_item_held)
+
 func set_inventory_availability(value:bool):
 	enabled = value
 	set_inventory_and_hotbar_visibility.emit(value)
 
-func _unhandled_input(event):
+func _unhandled_input(_event):
 	if Input.is_action_just_pressed("Inventory"):
 		toggle_inventory.emit()
 	if enabled:
@@ -48,8 +52,5 @@ func set_active_inventory_item(index:int):
 			active_inventory_slot = null
 			print(null)
 	set_active_inventory_slot.emit(active_inventory_index)
+	set_active_item.emit(active_inventory_slot)
 
-func _process(delta):
-	if active_inventory_slot:
-		item_interaction_manager.hold_item(active_inventory_slot)
-		

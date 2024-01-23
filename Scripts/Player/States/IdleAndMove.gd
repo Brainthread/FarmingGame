@@ -50,7 +50,7 @@ func _toggle_combat_mode():
 
 func _move_character(_delta: float):
 	var _direction_change_coefficient = 1
-	var _sprint_coefficent = _sprint_multiplier if _input_sprint else 1
+	var _sprint_coefficent = _sprint_multiplier if _input_sprint else 1.0
 	if _movement_velocity.dot(_input_direction) < 0 and not _movement_velocity == Vector2.ZERO and not _input_direction == Vector2.ZERO:
 		_direction_change_coefficient = _direction_change_modifier
 	

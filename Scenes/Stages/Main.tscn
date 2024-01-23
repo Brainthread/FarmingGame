@@ -1,44 +1,44 @@
 [gd_scene load_steps=14 format=3 uid="uid://dq52srwlt7r3v"]
 
-[ext_resource type="PackedScene" uid="uid://cwx3if5m44ve8" path="res://Scenes/Objects/player.tscn" id="1_7qiwv"]
-[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_mqvm2"]
-[ext_resource type="Script" path="res://Scripts/Essentials/Camera/CameraFollow.gd" id="2_f8se2"]
-[ext_resource type="Texture2D" uid="uid://th4vne2nqxq7" path="res://Imported/Textures/Trashcan.png" id="3_e04nh"]
-[ext_resource type="Texture2D" uid="uid://bxiiupwn2yios" path="res://Imported/Textures/Floor.png" id="3_ms2g7"]
-[ext_resource type="Texture2D" uid="uid://dfnnt1hb4xkly" path="res://Imported/Textures/Seedbag_a.png" id="4_fd5ns"]
-[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/GUI/InventoryInterface.gd" id="5_3hc8t"]
-[ext_resource type="PackedScene" uid="uid://c1gyvagmoq38c" path="res://Scenes/UI/InventoryPanel.tscn" id="5_wipeq"]
-[ext_resource type="Texture2D" uid="uid://bfwttmthyqyq0" path="res://icon.svg" id="8_te3on"]
-[ext_resource type="PackedScene" uid="uid://btwoo7pnno3qb" path="res://Scenes/UI/InventorySlot.tscn" id="9_3bdul"]
-[ext_resource type="PackedScene" uid="uid://lyu84pnoueby" path="res://Scenes/UI/hotbar.tscn" id="11_my2bo"]
-[ext_resource type="Script" path="res://Scenes/UI/HotbarPanel.gd" id="12_mks5n"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ihfwf"]
-size = Vector2(32, 18)
+[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_x1k0n"]
+[ext_resource type="Texture2D" uid="uid://th4vne2nqxq7" path="res://Imported/Textures/Trashcan.png" id="2_s4xr5"]
+[ext_resource type="Texture2D" uid="uid://dfnnt1hb4xkly" path="res://Imported/Textures/Seedbag_a.png" id="3_20o14"]
+[ext_resource type="TileSet" uid="uid://dnqe3h676xai5" path="res://test/Testtileset.tres" id="4_bg2i4"]
+[ext_resource type="PackedScene" uid="uid://cwx3if5m44ve8" path="res://Scenes/Objects/player.tscn" id="4_gmdru"]
+[ext_resource type="Script" path="res://Scripts/BuildHandler.gd" id="5_jgb84"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Camera/CameraFollow.gd" id="5_r4u1e"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/GUI/InventoryInterface.gd" id="7_teoak"]
+[ext_resource type="Texture2D" uid="uid://bfwttmthyqyq0" path="res://icon.svg" id="8_5xcw7"]
+[ext_resource type="PackedScene" uid="uid://c1gyvagmoq38c" path="res://Scenes/UI/InventoryPanel.tscn" id="9_wn3se"]
+[ext_resource type="PackedScene" uid="uid://btwoo7pnno3qb" path="res://Scenes/UI/InventorySlot.tscn" id="10_fcejd"]
+[ext_resource type="PackedScene" uid="uid://lyu84pnoueby" path="res://Scenes/UI/Hotbar.tscn" id="11_mxctr"]
+[ext_resource type="Script" path="res://Scripts/HotbarPanel.gd" id="13_d0v2l"]
 
 [node name="TestScene" type="Node2D"]
-script = ExtResource("1_mqvm2")
-trash_icon = ExtResource("3_e04nh")
-hotbar_icon = ExtResource("4_fd5ns")
+script = ExtResource("1_x1k0n")
+trash_icon = ExtResource("2_s4xr5")
+hotbar_icon = ExtResource("3_20o14")
 
 [node name="WorldGrid" type="Node2D" parent="."]
 
-[node name="Player" parent="." instance=ExtResource("1_7qiwv")]
+[node name="BuildHandler" type="Node2D" parent="WorldGrid"]
+script = ExtResource("5_jgb84")
+valid_placement_color = Color(0, 1, 0, 0.368627)
+invalid_placement_color = Color(1, 0, 0, 0.368627)
+
+[node name="PlayerGrid" type="Node2D" parent="WorldGrid"]
+
+[node name="LevelGrid" type="TileMap" parent="WorldGrid"]
+tile_set = ExtResource("4_bg2i4")
+format = 2
+layer_0/tile_data = PackedInt32Array(65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 131077, 0, 0, 131076, 0, 0, 131075, 0, 0, 131074, 0, 0, 131073, 0, 0, 196609, 131072, 0, 196610, 131072, 0, 196612, 131072, 0, 196613, 131072, 0, 262149, 131072, 0, 262148, 131072, 0, 262146, 131072, 0, 262145, 131072, 0, 327682, 196608, 0, 327681, 196608, 0, 327684, 196608, 0, 327685, 196608, 0, 196611, 65536, 0, 262147, 65536, 0, 327683, 65536, 0, 393219, 65536, 0, 393218, 65536, 0, 393217, 65536, 0, 393220, 65536, 0, 393221, 65536, 0, 1, 0, 1, 2, 0, 1, 3, 0, 1, 5, 0, 1, 4, 0, 1, -65535, 0, 1, -65534, 0, 1, -65533, 0, 1, -65532, 0, 1, -65531, 0, 1)
+
+[node name="Player" parent="." instance=ExtResource("4_gmdru")]
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
 zoom = Vector2(3, 3)
-script = ExtResource("2_f8se2")
+script = ExtResource("5_r4u1e")
 target = NodePath("../Player")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(1, 42)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_ihfwf")
-
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
-texture = ExtResource("3_ms2g7")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -55,14 +55,14 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("5_3hc8t")
+script = ExtResource("7_teoak")
 mouse_offset = Vector2(-32, -32)
-selected_hotbar_icon = ExtResource("8_te3on")
-trash_icon = ExtResource("3_e04nh")
+selected_hotbar_icon = ExtResource("8_5xcw7")
+trash_icon = ExtResource("2_s4xr5")
 
 [node name="Inventory" type="Node2D" parent="UI/InventoryHolder"]
 
-[node name="TrashPanel" parent="UI/InventoryHolder/Inventory" instance=ExtResource("5_wipeq")]
+[node name="TrashPanel" parent="UI/InventoryHolder/Inventory" instance=ExtResource("9_wn3se")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -75,7 +75,7 @@ offset_bottom = 506.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="InventoryPanel" parent="UI/InventoryHolder/Inventory" instance=ExtResource("5_wipeq")]
+[node name="InventoryPanel" parent="UI/InventoryHolder/Inventory" instance=ExtResource("9_wn3se")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -88,7 +88,7 @@ offset_bottom = 226.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GrabbedSlot" parent="UI/InventoryHolder/Inventory" instance=ExtResource("9_3bdul")]
+[node name="GrabbedSlot" parent="UI/InventoryHolder/Inventory" instance=ExtResource("10_fcejd")]
 visible = false
 modulate = Color(1, 1, 1, 0.627451)
 self_modulate = Color(1, 1, 1, 0)
@@ -98,7 +98,7 @@ offset_right = 54.0
 offset_bottom = 54.0
 mouse_filter = 2
 
-[node name="Hotbar" parent="UI/InventoryHolder" instance=ExtResource("11_my2bo")]
+[node name="Hotbar" parent="UI/InventoryHolder" instance=ExtResource("11_mxctr")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -111,4 +111,6 @@ offset_right = 20.0
 offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
-script = ExtResource("12_mks5n")
+script = ExtResource("13_d0v2l")
+
+[node name="ItemPickup" type="Node" parent="."]

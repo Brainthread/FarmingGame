@@ -1,22 +1,23 @@
-[gd_resource type="Resource" script_class="Inventory" load_steps=10 format=3 uid="uid://xfgy2c0mnrsv"]
+[gd_resource type="Resource" script_class="Inventory" load_steps=11 format=3 uid="uid://xfgy2c0mnrsv"]
 
 [ext_resource type="Texture2D" uid="uid://f0e0w5u1smnv" path="res://Imported/Textures/Seedbag_m.png" id="1_20i8p"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/ItemData.gd" id="1_k0b2e"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/Inventory.gd" id="1_v522i"]
-[ext_resource type="Texture2D" uid="uid://ku4mefhgp5x0" path="res://Imported/Textures/Pot_a.png" id="1_w1fyh"]
+[ext_resource type="Texture2D" uid="uid://cnivm63sdivnq" path="res://Imported/Textures/Pot_m.png" id="1_x310a"]
+[ext_resource type="Script" path="res://Scripts/InventoryItems/Placeable.gd" id="2_1fdn0"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/InventorySlot.gd" id="2_jl3fl"]
 
-[sub_resource type="Resource" id="Resource_6labw"]
-script = ExtResource("1_k0b2e")
-name = "Sadness"
-icon = ExtResource("1_w1fyh")
-description = "Gods"
+[sub_resource type="Resource" id="Resource_gfejt"]
+script = ExtResource("2_1fdn0")
+name = "Pot"
+icon = ExtResource("1_x310a")
+description = null
 max_stack_size = 99
 value = 0
 
 [sub_resource type="Resource" id="Resource_0wy36"]
 script = ExtResource("2_jl3fl")
-item_data = SubResource("Resource_6labw")
+item_data = SubResource("Resource_gfejt")
 stack_count = 101
 
 [sub_resource type="Resource" id="Resource_7mvgf"]

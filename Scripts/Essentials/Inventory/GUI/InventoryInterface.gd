@@ -16,7 +16,6 @@ var trash_inventory
 var inventories:Array[Inventory]
 var inventorypanel:Array[InventoryPanel]
 
-
 var _is_active = true
 var _is_initialized = false
 var active_item_index = -1
@@ -31,8 +30,20 @@ func _process(delta):
 	if grabbed_ui_slot.visible:
 		grabbed_ui_slot.global_position = get_global_mouse_position() + mouse_offset
 
+func set_panel_background_icon(panel:PanelContainer, index:int, icon:Texture2D):
+	panel.set_slot_background_icon(index, icon)
+
+#Could be outsourced to a hotbar-script
+func on_set_active_inventory_item(index:int):
+	if active_item_index >= 0:
+		set_hotbar_background_icon(active_item_index, null)
+	if index >= 0:
+		set_hotbar_background_icon(index, selected_hotbar_icon)
+	active_item_index = index
+
+#Code above this marker is reviewed and should not have to be edited
+
 func _exit_inventory_panel():
-	print("EXIT")
 	if grabbed_slot.item_data and _former_grabbed_slot:
 		if _former_grabbed_slot.item_data == grabbed_slot.item_data:
 			var addable = grabbed_slot.item_data.max_stack_size - _former_grabbed_slot.stack_count
@@ -42,6 +53,7 @@ func _exit_inventory_panel():
 			_former_grabbed_slot.item_data = grabbed_slot.item_data
 			_former_grabbed_slot.stack_count = grabbed_slot.stack_count
 		grabbed_slot.item_data = null
+		_former_grabbed_slot.update_slot()
 	update_grabbed_slot()
 	pass
 
@@ -65,19 +77,13 @@ func on_inventory_interact(inventory: Inventory, index:int, button:int):
 					grabbed_slot.item_data = null
 	update_grabbed_slot()
 
-func on_set_active_inventory_item(index:int):
-	if active_item_index >= 0:
-		set_hotbar_background_icon(active_item_index, null)
-	if index >= 0:
-		set_hotbar_background_icon(index, selected_hotbar_icon)
-	active_item_index = index
 
 func set_slot_background_icon(index:int, icon:Texture2D):
 	inventory_panel.set_slot_background_icon(index, icon)
 
 func set_hotbar_background_icon(index:int, icon:Texture2D):
 	hotbar_panel.set_slot_background_icon(index, icon)
-	
+
 func update_grabbed_slot():
 	if grabbed_slot.item_data:
 		grabbed_ui_slot.show()
@@ -115,7 +121,7 @@ func set_inventory_visibility(value:bool):
 func set_trash_inventory_data():
 	if not trash_inventory:
 		trash_inventory = Inventory.new()
-		trash_inventory.items.insert(0, InventorySlot.new())
+		trash_inventory.initialize_empty_inventory(1)
 	set_inventory_data(trash_inventory, trash_panel)
 	trash_panel.set_slot_background_icon(0, trash_icon)
 
@@ -124,7 +130,6 @@ func set_player_inventory_data(player_inventory:Inventory):
 	hotbar_panel.set_inventory_data(player_inventory)
 
 func set_inventory_data(inventory: Inventory, target_panel:InventoryPanel):
-	inventory.inventory_interact.connect(on_inventory_interact)
 	target_panel.set_inventory_data(inventory)
 
 

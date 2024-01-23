@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwx3if5m44ve8"]
+[gd_scene load_steps=11 format=3 uid="uid://cwx3if5m44ve8"]
 
 [ext_resource type="Texture2D" uid="uid://1pueoxa6ih0v" path="res://Sprites/Player.png" id="1_37bka"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/PlayerInventoryManager.gd" id="1_r8lmr"]
@@ -8,9 +8,10 @@
 [ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/HealthComponent.gd" id="3_neiuy"]
 [ext_resource type="Script" path="res://Scripts/Player/States/IdleAndMove.gd" id="3_pui5a"]
 [ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/Hitbox.gd" id="4_k7d8w"]
+[ext_resource type="Script" path="res://Scripts/PlayerPlaceInteraction.gd" id="4_suw85"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4cju8"]
-radius = 8.01561
+radius = 7.0
 
 [node name="Player" type="CharacterBody2D"]
 
@@ -28,7 +29,8 @@ script = ExtResource("3_2ko66")
 
 [node name="RangedComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
 
-[node name="PlantingComponent" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+[node name="Placement" type="Node" parent="PlayerInventoryManager/ItemInteractionManager"]
+script = ExtResource("4_suw85")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "root")]
 script = ExtResource("2_1ic7f")
@@ -51,5 +53,5 @@ texture_filter = 1
 texture = ExtResource("1_37bka")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
-position = Vector2(0, 5.5)
+position = Vector2(0, 10)
 shape = SubResource("CircleShape2D_4cju8")

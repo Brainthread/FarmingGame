@@ -81,17 +81,25 @@ func initialize_empty_inventory(size:int):
 	_size = size
 	items.resize(size)
 	for n in size:
-		initialize_slot(n)
+		create_slot(n)
 
 func initialize_inventory():
 	for n in items.size():
 		if not items[n]:
+			create_slot(n)
+		else:
 			initialize_slot(n)
 
 func initialize_slot (index:int):
+	items[index].index = index
+	items[index].slot_updated.connect(on_slot_updated)
+
+func create_slot (index:int):
 	items[index] = InventorySlot.new()
 	items[index].stack_count = 0
 	items[index].item_data = null
+	items[index].index = index
+	items[index].slot_updated.connect(on_slot_updated)
 
 func add_item (item:ItemData, count:int):
 	for slot in items:
@@ -105,9 +113,6 @@ func add_item (item:ItemData, count:int):
 			var available_space = item.max_stack_size - slot.stack_count
 			slot.stack_count += min(count, available_space)
 			count = max(count - available_space, 0)
-
-func add_item_at (item:ItemData, count:int, index:int):
-	pass
 
 func set_item (index:int, item:ItemData, count:int):
 	items[index].stack_count = count
@@ -135,6 +140,8 @@ func space_for_item (item:ItemData):
 			space += available_space
 	return space
 
+func on_slot_updated(index:int):
+	inventory_update_cell.emit(items[index], index)
 
 func remove_item (item:ItemData, count: int):
 	for slot in items:
@@ -142,7 +149,6 @@ func remove_item (item:ItemData, count: int):
 			break
 		if item == slot.item_data:
 			pass
-
 
 func clear():
 	for slot in items:
