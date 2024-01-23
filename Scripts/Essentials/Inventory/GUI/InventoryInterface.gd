@@ -23,8 +23,25 @@ var active_item_index = -1
 var grabbed_slot: InventorySlot = InventorySlot.new()
 var _former_grabbed_slot:InventorySlot
 
-func _ready():
-	initialize()
+
+func initialize(main_inventory:Inventory):
+	if not inventory_panel:
+		push_error("No inventory UI assigned")
+	inventory_panel.initialize()
+	trash_panel.initialize()
+	_is_initialized = true
+	initialize_trash()
+	main_inventory.inventory_interact.connect(on_inventory_interact)
+	set_player_inventory_data(main_inventory)
+	set_trash_inventory_data()
+
+func initialize_trash():
+	if not trash_inventory:
+		trash_inventory = Inventory.new()
+		trash_inventory.initialize_empty_inventory(1)
+	trash_inventory.inventory_interact.connect(on_inventory_interact)
+	
+
 
 func _process(delta):
 	if grabbed_ui_slot.visible:
@@ -40,8 +57,6 @@ func on_set_active_inventory_item(index:int):
 	if index >= 0:
 		set_hotbar_background_icon(index, selected_hotbar_icon)
 	active_item_index = index
-
-#Code above this marker is reviewed and should not have to be edited
 
 func _exit_inventory_panel():
 	if grabbed_slot.item_data and _former_grabbed_slot:
@@ -93,13 +108,7 @@ func update_grabbed_slot():
 
 func is_active():
 	return is_active
-	
-func initialize():
-	if not inventory_panel:
-		push_error("No inventory UI assigned")
-	inventory_panel.initialize()
-	trash_panel.initialize()
-	_is_initialized = true
+
 
 func toggle_inventory_holder_visibility():
 	if _is_active:
@@ -119,9 +128,6 @@ func set_inventory_visibility(value:bool):
 		toggle_inventory_holder_visibility()
 
 func set_trash_inventory_data():
-	if not trash_inventory:
-		trash_inventory = Inventory.new()
-		trash_inventory.initialize_empty_inventory(1)
 	set_inventory_data(trash_inventory, trash_panel)
 	trash_panel.set_slot_background_icon(0, trash_icon)
 

@@ -14,16 +14,17 @@ var player_inventory: Inventory
 func _ready():
 	inventory_interface.toggle_hotbar_visibility()
 	player_inventory = inventory_manager.inventory
-	player_inventory.initialize_inventory()	
-	inventory_interface.set_player_inventory_data(player_inventory)
-	inventory_interface.set_trash_inventory_data()
+	player_inventory.initialize_inventory()
 	
 	inventory_manager.set_active_inventory_slot.connect(inventory_interface.on_set_active_inventory_item)
 	inventory_manager.toggle_inventory.connect(toggle_inventory_interface)
 	inventory_manager.set_inventory_and_hotbar_visibility.connect(set_inventory_visibility)
 	
+	inventory_interface.initialize(player_inventory)
+	
 	player_build_manager.world_build_handler = world_build_handler
 	_set_inventory_icons()
+	
 	
 func _set_inventory_icons():
 	for i in 5:
