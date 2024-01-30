@@ -31,7 +31,7 @@ script = ExtResource("3_2ko66")
 
 [node name="Placement" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
 script = ExtResource("4_suw85")
-build_range = 32.0
+build_range = 64.0
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "root")]
 script = ExtResource("2_1ic7f")

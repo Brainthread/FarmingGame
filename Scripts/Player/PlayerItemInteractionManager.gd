@@ -5,7 +5,7 @@ var held_item:InventorySlot
 var held_state:PlayerItemInteraction
 
 
-func on_new_item_held(itemSlot:InventorySlot):
+func on_held_item_update(itemSlot:InventorySlot):
 	if held_state:
 		held_state.stop_holding()
 	held_item = itemSlot

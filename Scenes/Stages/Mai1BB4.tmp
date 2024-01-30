@@ -23,6 +23,17 @@ hotbar_icon = ExtResource("3_20o14")
 
 [node name="WorldGrid" type="Node2D" parent="."]
 
+[node name="BuildHandler" type="Node2D" parent="WorldGrid"]
+script = ExtResource("4_uge52")
+valid_placement_color = Color(0, 1, 0, 0.368627)
+invalid_placement_color = Color(1, 0, 0, 0.368627)
+
+[node name="PlayerBuildDictionary" type="Node2D" parent="WorldGrid"]
+script = ExtResource("5_snpdh")
+
+[node name="PlayerBuildGrid" type="Node2D" parent="WorldGrid"]
+script = ExtResource("6_yu168")
+
 [node name="LevelGrid" type="TileMap" parent="WorldGrid"]
 position = Vector2(1, 0)
 tile_set = ExtResource("4_bg2i4")
@@ -36,17 +47,6 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(131073, 1, 131072, 131074, 1, 131072, 131076, 1, 131072, 131077, 1, 131072)
-
-[node name="BuildHandler" type="Node2D" parent="WorldGrid"]
-script = ExtResource("4_uge52")
-valid_placement_color = Color(0, 1, 0, 0.368627)
-invalid_placement_color = Color(1, 0, 0, 0.368627)
-
-[node name="PlayerBuildDictionary" type="Node2D" parent="WorldGrid"]
-script = ExtResource("5_snpdh")
-
-[node name="PlayerBuildGrid" type="Node2D" parent="WorldGrid"]
-script = ExtResource("6_yu168")
 
 [node name="Player" parent="." instance=ExtResource("4_gmdru")]
 

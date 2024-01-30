@@ -17,7 +17,13 @@ var enabled = true
 @onready var item_interaction_manager = $ItemInteractionManager
 
 func _ready():
-	set_active_item.connect(item_interaction_manager.on_new_item_held)
+	set_active_item.connect(item_interaction_manager.on_held_item_update)
+	inventory.inventory_update_cell.connect(update_active_item)
+
+func update_active_item(slot:InventorySlot, index:int):
+	if index == active_inventory_index:
+		item_interaction_manager.on_held_item_update(slot)
+		print("Held item Update!!")
 
 func set_inventory_availability(value:bool):
 	enabled = value

@@ -9,3 +9,11 @@ var index
 
 func update_slot():
 	slot_updated.emit(index)
+	
+func decrease_stack(count:int):
+	stack_count -= count
+	if stack_count == 0:
+		stack_count = 0
+		item_data = null
+	update_slot()
+

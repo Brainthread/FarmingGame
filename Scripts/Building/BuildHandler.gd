@@ -2,11 +2,18 @@ extends Node2D
 class_name BuildHandler
 
 @onready var grid: TileMap = $"../LevelGrid"
-@onready var playergrid = $"../PlayerGrid"
+@onready var player_build_dictionary:PlayerBuildDictionary = $"../PlayerBuildDictionary"
+@onready var player_build_grid:PlayerBuildGrid = $"../PlayerBuildGrid"
 @export var valid_placement_color:Color
 @export var invalid_placement_color:Color
 
 var held_item
+
+func _ready():
+	if not player_build_dictionary:
+		push_error("No PlayerBuildDictionary supplied")
+	if not player_build_grid:
+		push_error("No PlayerBuildGrid supplied")
 
 func _mouse_pos_to_grid_pos() -> Vector2i:
 	var mouse_pos = get_global_mouse_position()
@@ -21,29 +28,22 @@ func get_preview_position() -> Vector2:
 	var world_pos = _grid_pos_to_world_pos(grid_pos)
 	return world_pos
 
-func _can_build_at_position(grid_position:Vector2i):
+func can_build_at_position(grid_position:Vector2i):
 	var cell = grid.get_cell_tile_data(0, grid_position)
-	var builtobject = playergrid.get_object(grid_position)
+	var builtobject = player_build_dictionary.get_object(grid_position)
 	if cell:
 		if cell.get_custom_data("is_buildable") and not builtobject:
 			return true
 	return false
-	
-func _can_plant_at_position(_grid_position:Vector2i):
-	var buildcell = grid.get_cell_tile_data(1, _grid_position)
-	if buildcell:
+
+func build_at_position(grid_position:Vector2i, item:ItemData) -> bool:
+	if(can_build_at_position(grid_position)):
+		var realposition = _grid_pos_to_world_pos(grid_position)
+		var build_object = item.build_object
+		player_build_dictionary.build_object(grid_position, item)
+		player_build_grid.build_object_instance(grid_position, realposition, build_object.scene)
 		return true
 	return false
 
-func _build_at_position(grid_position:Vector2i):
-	pass
-
-func _plant_at_position(grid_position:Vector2i):
-	grid.set_cell(1, grid_position, 0, Vector2i(0,1))
-
 func _destroy_at_position(grid_position:Vector2i):
-	grid.set_cell(1, grid_position, -1, Vector2i(-1, -1))
-	var buildcell = grid.get_cell_tile_data(1, grid_position)
-	buildcell = null
 	pass
-

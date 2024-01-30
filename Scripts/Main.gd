@@ -25,7 +25,6 @@ func _ready():
 	player_build_manager.world_build_handler = world_build_handler
 	_set_inventory_icons()
 	
-	
 func _set_inventory_icons():
 	for i in 5:
 		inventory_interface.set_slot_background_icon(i, hotbar_icon)
