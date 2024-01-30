@@ -1,5 +1,5 @@
 extends Resource
-class_name BuildObject
+class_name PotBuildObject
 
 enum BuildType {
 	decor,
