@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://bnenamabmbqjk"]
+
+[ext_resource type="Texture2D" uid="uid://bd0y3faa5v2ra" path="res://Imported/Textures/Coilroot.png" id="1_dxdsv"]
+
+[resource]
+atlas = ExtResource("1_dxdsv")
+region = Rect2(0, 0, 224, 32)

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="PlantInstanceDictionary" load_steps=2 format=3 uid="uid://bgemdqef3whnf"]
+
+[ext_resource type="Script" path="res://Scripts/Plants/PlantInstanceDictionary.gd" id="1_7qfao"]
+
+[resource]
+script = ExtResource("1_7qfao")
+_plants = Array[PackedScene]([null])
