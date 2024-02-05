@@ -1,11 +1,20 @@
 extends Node
 class_name PlantGrowthComponent
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+var progress:float = 0
+var final_level:bool = false
 
+@onready var level_handler:BoundedNumber = $"../Level"
+@export var growthStage:Array[PlantGrowthStage] 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func light_tick(delta:float, light_type:PlantInterface.LightType):
+	var stage = growthStage[level_handler.get_number()]
+	if not growthStage:
+		push_error("There is no corresponding growth stage loaded into plant. Aborting growth.")
+	progress += stage.get_light_modifier(light_type)*delta
+	if progress >= stage.progress_threshold and not final_level:
+		var level_up_successful = level_handler.number_up()
+		if level_up_successful:
+			progress -= stage.progress_threshold
+		else: final_level = true
+

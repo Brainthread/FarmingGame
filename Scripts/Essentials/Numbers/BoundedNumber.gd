@@ -36,3 +36,6 @@ func set_number (new_number:int):
 		number_set.emit()
 		return true
 	return false
+	
+func get_number ():
+	return number

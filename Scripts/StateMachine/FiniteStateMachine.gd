@@ -9,7 +9,7 @@ func _ready():
 	states.resize(get_child_count())
 	var actualSize = 0
 	for child in get_children():
-		if(not child is State):
+		if not child is State:
 			continue
 		states[actualSize] = child
 		actualSize += 1
