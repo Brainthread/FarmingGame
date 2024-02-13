@@ -1,11 +1,7 @@
 extends Node2D
 class_name PlantInterface
 
-enum LightType {
-	Yellow,
-	Red,
-	Blue,
-}
+
 
 @onready var level_component:BoundedNumber = $Level
 @onready var growth_component:PlantGrowthComponent = $GrowthHandler
@@ -20,16 +16,23 @@ func _on_create():
 	if not health_component:
 		push_error("No health component")
 
-func _on_light_tick(delta:float, light_type:LightType):
+func _on_light_tick(delta:float, light_type:LightHandler.LightType):
 	growth_component.light_tick(delta, light_type)
 
-func _on_interact():
+func _on_interacted():
 	pass
 
-func _on_harvest():
+func _on_harvested():
 	pass
+	
+func _on_picked():
+	remove()
 
 func _on_eaten():
+	remove()
+	pass
+
+func remove():
 	pass
 
 func _process(delta):

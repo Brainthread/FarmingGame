@@ -7,7 +7,7 @@ var final_level:bool = false
 @onready var level_handler:BoundedNumber = $"../Level"
 @export var growthStage:Array[PlantGrowthStage] 
 
-func light_tick(delta:float, light_type:PlantInterface.LightType):
+func light_tick(delta:float, light_type:LightHandler.LightType):
 	var stage = growthStage[level_handler.get_number()]
 	if not growthStage:
 		push_error("There is no corresponding growth stage loaded into plant. Aborting growth.")
