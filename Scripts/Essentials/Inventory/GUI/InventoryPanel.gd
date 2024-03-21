@@ -17,7 +17,7 @@ func set_inventory_data(inventory:Inventory):
 	populate_item_grid(inventory)
 
 #sets a cell of the slots to the assigned data
-func set_inventory_cell(slot_data:InventorySlot, index:int):
+func set_inventory_cell(slot_data:InventorySlotData, index:int):
 	if _slots[index]:
 		var slot = _slots[index] as InventoryGUISlot
 		slot.set_slot_data(slot_data)

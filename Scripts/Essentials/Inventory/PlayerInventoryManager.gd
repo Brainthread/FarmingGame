@@ -11,16 +11,20 @@ signal set_active_item
 @export var hotbar_size:int = 5
 
 var active_inventory_index = -1
-var active_inventory_slot:InventorySlot
+var active_inventory_slot:InventorySlotData
 var enabled = true
 
 @onready var item_interaction_manager = $ItemInteractionManager
 
 func _ready():
-	set_active_item.connect(item_interaction_manager.on_held_item_update)
-	inventory.inventory_update_cell.connect(update_active_item)
+	#set_active_item.connect(item_interaction_manager.on_held_item_update)
+	#inventory.inventory_update_cell.connect(update_active_item)
+	pass
 
-func update_active_item(slot:InventorySlot, index:int):
+func get_inventory() -> Inventory:
+	return inventory
+
+func update_active_item(slot:InventorySlotData, index:int):
 	if index == active_inventory_index:
 		item_interaction_manager.on_held_item_update(slot)
 		print("Held item Update!!")

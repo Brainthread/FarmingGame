@@ -12,8 +12,8 @@ var _movement_velocity:Vector2 = Vector2()
 @onready var player_inventory_manager = $"../../PlayerInventoryManager"
 @export var _battle_mode:bool = false
 
-func _initialize_state(stateMachine_node:FiniteStateMachine, root_node:Node2D):
-	super(stateMachine_node, root_node)
+func _initialize_state(state_machine_node:FiniteStateMachine, root_node:Node2D):
+	super(state_machine_node, root_node)
 	if not root is CharacterBody2D:
 		push_error("Root node is not Character Body")
 	_body = root as CharacterBody2D

@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dixl1v3adsgq6"]
+[gd_scene load_steps=13 format=3 uid="uid://dixl1v3adsgq6"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_x1k0n"]
 [ext_resource type="Texture2D" uid="uid://th4vne2nqxq7" path="res://Imported/Textures/Trashcan.png" id="2_s4xr5"]
 [ext_resource type="Texture2D" uid="uid://dfnnt1hb4xkly" path="res://Imported/Textures/Seedbag_a.png" id="3_20o14"]
+[ext_resource type="Script" path="res://Scenes/Stages/LightHandler.gd" id="4_ao4k1"]
 [ext_resource type="PackedScene" uid="uid://cwx3if5m44ve8" path="res://Scenes/Objects/player.tscn" id="4_gmdru"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Camera/CameraFollow.gd" id="5_r4u1e"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/GUI/InventoryInterface.gd" id="7_teoak"]
@@ -16,6 +17,11 @@
 script = ExtResource("1_x1k0n")
 trash_icon = ExtResource("2_s4xr5")
 hotbar_icon = ExtResource("3_20o14")
+
+[node name="LightHandler" type="Node2D" parent="."]
+script = ExtResource("4_ao4k1")
+
+[node name="Node2D" type="Node2D" parent="LightHandler"]
 
 [node name="Player" parent="." instance=ExtResource("4_gmdru")]
 

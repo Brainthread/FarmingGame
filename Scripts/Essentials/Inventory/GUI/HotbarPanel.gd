@@ -17,7 +17,7 @@ func set_inventory_data(inventory:Inventory):
 	populate_item_grid(inventory)
 
 
-func set_inventory_cell(slot_data:InventorySlot, index:int):
+func set_inventory_cell(slot_data:InventorySlotData, index:int):
 	if index > count -1:
 		return
 	if _slots[index]:

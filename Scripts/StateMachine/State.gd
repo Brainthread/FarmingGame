@@ -1,11 +1,11 @@
 extends Node
 class_name State
 
-var stateMachine:FiniteStateMachine
+var state_machine:FiniteStateMachine
 var root:Node2D
 
-func _initialize_state(stateMachine_node:FiniteStateMachine, root_node:Node2D):
-	stateMachine = stateMachine_node
+func _initialize_state(state_machine_node:FiniteStateMachine, root_node:Node2D):
+	state_machine = state_machine_node
 	root = root_node
 
 func _enter_state():

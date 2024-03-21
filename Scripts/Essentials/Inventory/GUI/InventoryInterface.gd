@@ -20,8 +20,8 @@ var _is_active = true
 var _is_initialized = false
 var active_item_index = -1
 
-var grabbed_slot: InventorySlot = InventorySlot.new()
-var _former_grabbed_slot:InventorySlot
+var grabbed_slot: InventorySlotData = InventorySlotData.new()
+var _former_grabbed_slot:InventorySlotData
 
 
 func initialize(main_inventory:Inventory):
@@ -86,7 +86,7 @@ func on_inventory_interact(inventory: Inventory, index:int, button:int):
 			grabbed_slot = inventory.drop_slot(index, grabbed_slot)
 		[_, MOUSE_BUTTON_RIGHT]:
 			if inventory.stack_space_for_item(index, grabbed_slot.item_data) > 0:
-				inventory.add_item_to_slot(index, grabbed_slot.item_data, 1)
+				inventory.add_item_at(index, grabbed_slot.item_data, 1)
 				grabbed_slot.stack_count-=1
 				if grabbed_slot.stack_count == 0:
 					grabbed_slot.item_data = null

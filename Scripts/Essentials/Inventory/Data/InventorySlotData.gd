@@ -1,10 +1,11 @@
 extends Resource
-class_name InventorySlot
+class_name InventorySlotData
 
 signal slot_updated
 
 @export var item_data:ItemData
 @export var stack_count:int
+@export var interactable:bool = true
 var index
 
 func update_slot():

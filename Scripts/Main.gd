@@ -8,9 +8,6 @@ var player_inventory: Inventory
 @export var trash_icon:Texture2D
 @export var hotbar_icon:Texture2D
 
-@onready var player_build_manager = $Player/PlayerInventoryManager/ItemInteractionManager/Placement
-@onready var world_build_handler:BuildHandler = $WorldGrid/BuildHandler
-
 func _ready():
 	inventory_interface.toggle_hotbar_visibility()
 	player_inventory = inventory_manager.inventory
@@ -22,7 +19,6 @@ func _ready():
 	
 	inventory_interface.initialize(player_inventory)
 	
-	player_build_manager.world_build_handler = world_build_handler
 	_set_inventory_icons()
 	
 func _set_inventory_icons():

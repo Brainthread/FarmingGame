@@ -13,7 +13,7 @@ func initialize():
 	item = $MarginContainer/Item
 	quantity = $Quantity
 
-func set_slot_data(slot_data: InventorySlot) -> void:
+func set_slot_data(slot_data: InventorySlotData) -> void:
 	quantity.hide()
 	var item_data = slot_data.item_data
 	if not item_data:

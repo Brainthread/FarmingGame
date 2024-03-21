@@ -14,7 +14,11 @@ func _ready():
 		states[actualSize] = child
 		actualSize += 1
 		child._initialize_state(self, root)
-
+	if not current_state:
+		if get_child_count() == 0:
+			push_error("State Machine has no states!")
+		else:
+			current_state = get_child(0)
 	states.resize(actualSize)
 	_change_state(current_state)
 

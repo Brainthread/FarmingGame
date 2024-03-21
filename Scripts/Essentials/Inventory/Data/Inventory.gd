@@ -3,40 +3,80 @@ class_name Inventory
 
 signal inventory_interact(inventory: Inventory, index:int, button:int)
 signal inventory_update(inventory:Inventory)
-signal inventory_update_cell(data:InventorySlot, index:int)
+signal inventory_update_cell(data:InventorySlotData, index:int)
 
-@export var items: Array[InventorySlot]
+#The items in the inventory, encapsulated in SlotData
+@export var items:Array[InventorySlotData]
+
+#Is the inventory dynamically sized? Does it grow when you add items?
+@export var _dynamic_inventory:bool
+
+#Maximum amount of items in the inventory
 var _size:int
-const _library_path = "res://Data/Items/ItemLibrary.tres"
-var _library:ItemLibrary
 
-func grab_slot(index:int) -> InventorySlot:
-	var slot_data = InventorySlot.new()
+#An item Library is a resource that keeps all available items in the game, indexing them for use.
+var _library:ItemLibrary
+const _library_path = "res://Data/Items/ItemLibrary.tres"
+
+func add_item (item:ItemData, count:int):
+	for slot in items:
+		if count <= 0:
+			break
+		if slot.item_data == null:
+			slot.item_data = item
+			slot.stack_count = min(count, item.max_stack_size)
+			count = max(count - item.max_stack_size, 0)
+		elif item == slot.item_data:
+			var available_space = item.max_stack_size - slot.stack_count
+			slot.stack_count += min(count, available_space)
+			count = max(count - available_space, 0)
+	return null
+
+
+func add_item_id (id:int, count:int) -> InventorySlotData:
+	return add_item(_library.get_item(id), count)
+
+func add_item_at(index:int, item:ItemData, count:int):
+	if slot_is_empty(index):
+		items[index].item_data = item
+		items[index].stack_count = min(count, item.max_stack_size)
+	elif items[index].item_data == item and \
+			items[index].stack_count < items[index].item_data.max_stack_size:
+		items[index].stack_count += count
+		items[index].stack_count = min(items[index].stack_count, item.max_stack_size)
+	inventory_update_cell.emit(items[index], index)
+
+func add_item_id_at (position:int, id:int, count:int) -> InventorySlotData:
+	return null
+
+
+func grab_slot(index:int) -> InventorySlotData:
+	var slot_data = InventorySlotData.new()
 	slot_data.item_data = items[index].item_data
 	slot_data.stack_count = items[index].stack_count
 	clear_slot(index)
 	inventory_update_cell.emit(items[index], index)
 	return slot_data
 
-func get_slot(index:int) -> InventorySlot:
+func get_slot(index:int) -> InventorySlotData:
 	return items[index]
 
 func clear_slot (index:int):
 	items[index].item_data = null
 	items[index].stack_count = 0
 
-func drop_slot(index:int, grabbed_slot:InventorySlot) -> InventorySlot:
-	var slot_data = InventorySlot.new()
+func drop_slot(index:int, grabbed_slot:InventorySlotData) -> InventorySlotData:
+	var slot_data = InventorySlotData.new()
 	slot_data.item_data = grabbed_slot.item_data
 	slot_data.stack_count = grabbed_slot.stack_count
 	var item = slot_data.item_data
 	var stackSpace = stack_space_for_item(index, item)
 	
 	if stackSpace >= grabbed_slot.stack_count:
-		add_item_to_slot(index, item, slot_data.stack_count)
+		add_item_at(index, item, slot_data.stack_count)
 		slot_data.item_data = null
 	elif stackSpace > 0:
-		add_item_to_slot(index, item, stackSpace)
+		add_item_at(index, item, stackSpace)
 		slot_data.stack_count = max(slot_data.stack_count-stackSpace, 0)
 	else:
 		slot_data.item_data = items[index].item_data
@@ -63,16 +103,6 @@ func stack_space_for_item(index, item):
 		return items[index].item_data.max_stack_size - items[index].stack_count
 	return 0
 
-func add_item_to_slot(index, item, count):
-	if slot_is_empty(index):
-		items[index].item_data = item
-		items[index].stack_count = min(count, item.max_stack_size)
-	elif items[index].item_data == item and \
-			items[index].stack_count < items[index].item_data.max_stack_size:
-		items[index].stack_count += count
-		items[index].stack_count = min(items[index].stack_count, item.max_stack_size)
-	inventory_update_cell.emit(items[index], index)
-
 func on_slot_clicked(index: int, button:int):
 	inventory_interact.emit(self, index, button)
 
@@ -95,24 +125,13 @@ func initialize_slot (index:int):
 	items[index].slot_updated.connect(on_slot_updated)
 
 func create_slot (index:int):
-	items[index] = InventorySlot.new()
+	items[index] = InventorySlotData.new()
 	items[index].stack_count = 0
 	items[index].item_data = null
 	items[index].index = index
 	items[index].slot_updated.connect(on_slot_updated)
 
-func add_item (item:ItemData, count:int):
-	for slot in items:
-		if count <= 0:
-			return
-		if slot.item_data == null:
-			slot.item_data = item
-			slot.stack_count = min(count, item.max_stack_size)
-			count = max(count - item.max_stack_size, 0)
-		elif item == slot.item_data:
-			var available_space = item.max_stack_size - slot.stack_count
-			slot.stack_count += min(count, available_space)
-			count = max(count - available_space, 0)
+
 
 func set_item (index:int, item:ItemData, count:int):
 	items[index].stack_count = count

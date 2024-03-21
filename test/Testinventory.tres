@@ -1,23 +1,27 @@
 [gd_resource type="Resource" script_class="Inventory" load_steps=14 format=3 uid="uid://xfgy2c0mnrsv"]
 
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/ItemData.gd" id="1_0up5o"]
 [ext_resource type="Texture2D" uid="uid://f0e0w5u1smnv" path="res://Imported/Textures/Seedbag_m.png" id="1_20i8p"]
-[ext_resource type="PackedScene" uid="uid://uuc6mrs1hquj" path="res://Scenes/Objects/pot.tscn" id="1_pl6cn"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/Inventory.gd" id="1_v522i"]
 [ext_resource type="Texture2D" uid="uid://cnivm63sdivnq" path="res://Imported/Textures/Pot_m.png" id="1_x310a"]
 [ext_resource type="Script" path="res://Scripts/InventoryItems/Placeable.gd" id="2_1fdn0"]
-[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/InventorySlot.gd" id="2_jl3fl"]
-[ext_resource type="Script" path="res://Scripts/Building/BuildData/BuildObject.gd" id="2_wpjcw"]
+[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/InventorySlotData.gd" id="2_jl3fl"]
 [ext_resource type="Script" path="res://Scripts/InventoryItems/Seedbag.gd" id="5_lnaqk"]
 
-[sub_resource type="Resource" id="Resource_6bdp2"]
-script = ExtResource("2_wpjcw")
-wall_placeable = false
-build_type = 1
-scene = ExtResource("1_pl6cn")
+[sub_resource type="Resource" id="Resource_las50"]
+script = ExtResource("1_0up5o")
+name = "aaaa"
+description = null
+max_stack_size = 99
+value = 0
+
+[sub_resource type="Resource" id="Resource_e4q1y"]
+script = ExtResource("2_jl3fl")
+item_data = SubResource("Resource_las50")
+stack_count = 0
 
 [sub_resource type="Resource" id="Resource_gfejt"]
 script = ExtResource("2_1fdn0")
-build_object = SubResource("Resource_6bdp2")
 name = "Pot"
 icon = ExtResource("1_x310a")
 description = null
@@ -44,4 +48,4 @@ stack_count = 33
 
 [resource]
 script = ExtResource("1_v522i")
-items = Array[ExtResource("2_jl3fl")]([null, null, null, null, null, SubResource("Resource_0wy36"), SubResource("Resource_qfe0k"), null, null, null, null, null, null, null, null])
+items = Array[ExtResource("2_jl3fl")]([SubResource("Resource_e4q1y"), null, null, null, null, SubResource("Resource_0wy36"), SubResource("Resource_qfe0k"), null, null, null, null, null, null, null, null])

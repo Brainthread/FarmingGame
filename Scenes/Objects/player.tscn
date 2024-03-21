@@ -1,14 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwx3if5m44ve8"]
+[gd_scene load_steps=9 format=3 uid="uid://cwx3if5m44ve8"]
 
 [ext_resource type="Texture2D" uid="uid://1pueoxa6ih0v" path="res://Sprites/Player.png" id="1_37bka"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/PlayerInventoryManager.gd" id="1_r8lmr"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/FiniteStateMachine.gd" id="2_1ic7f"]
 [ext_resource type="Resource" uid="uid://xfgy2c0mnrsv" path="res://test/Testinventory.tres" id="2_70m65"]
-[ext_resource type="Script" path="res://Scripts/Player/PlayerItemInteractionManager.gd" id="3_2ko66"]
 [ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/HealthComponent.gd" id="3_neiuy"]
 [ext_resource type="Script" path="res://Scripts/Player/States/IdleAndMove.gd" id="3_pui5a"]
 [ext_resource type="Script" path="res://Scripts/Essentials/HealthAndHit/Hitbox.gd" id="4_k7d8w"]
-[ext_resource type="Script" path="res://Scripts/PlayerPlaceInteraction.gd" id="4_suw85"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4cju8"]
 radius = 7.0
@@ -19,19 +17,6 @@ radius = 7.0
 script = ExtResource("1_r8lmr")
 inventory = ExtResource("2_70m65")
 inventory_size = 15
-
-[node name="ItemInteractionManager" type="Node2D" parent="PlayerInventoryManager"]
-script = ExtResource("3_2ko66")
-
-[node name="HarvestingComponent" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
-
-[node name="MeleeComponent" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
-
-[node name="RangedComponent" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
-
-[node name="Placement" type="Node2D" parent="PlayerInventoryManager/ItemInteractionManager"]
-script = ExtResource("4_suw85")
-build_range = 64.0
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "root")]
 script = ExtResource("2_1ic7f")
