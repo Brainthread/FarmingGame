@@ -7,6 +7,7 @@ signal set_active_inventory_slot
 signal set_active_item
 
 @export var inventory:Inventory
+@export var hotbar:Inventory
 @export var inventory_size:int = 10
 @export var hotbar_size:int = 5
 
@@ -14,7 +15,7 @@ var active_inventory_index = -1
 var active_inventory_slot:InventorySlotData
 var enabled = true
 
-@onready var item_interaction_manager = $ItemInteractionManager
+#@onready var item_interaction_manager = $ItemInteractionManager
 
 func _ready():
 	#set_active_item.connect(item_interaction_manager.on_held_item_update)
@@ -24,15 +25,19 @@ func _ready():
 func get_inventory() -> Inventory:
 	return inventory
 
+func get_hotbar() -> Inventory:
+	return hotbar
+
 func update_active_item(slot:InventorySlotData, index:int):
 	if index == active_inventory_index:
-		item_interaction_manager.on_held_item_update(slot)
-		print("Held item Update!!")
+		#item_interaction_manager.on_held_item_update(slot)
+		pass
 
 func set_inventory_availability(value:bool):
 	enabled = value
 	set_inventory_and_hotbar_visibility.emit(value)
 
+###TODO IMPROVE KEY HANDLING!!!!!
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("Inventory"):
 		toggle_inventory.emit()

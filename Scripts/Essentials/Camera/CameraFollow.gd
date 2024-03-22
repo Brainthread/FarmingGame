@@ -14,12 +14,12 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 	
 func _physics_process(delta):
 	var target_heading = target.position - target_former_position
-	var target_velocity = target_heading/delta
+	var _target_velocity = target_heading/delta
 	
 	if look_ahead == true:
 		pass

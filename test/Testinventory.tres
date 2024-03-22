@@ -1,24 +1,11 @@
-[gd_resource type="Resource" script_class="Inventory" load_steps=14 format=3 uid="uid://xfgy2c0mnrsv"]
+[gd_resource type="Resource" script_class="Inventory" load_steps=11 format=3 uid="uid://xfgy2c0mnrsv"]
 
-[ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/ItemData.gd" id="1_0up5o"]
 [ext_resource type="Texture2D" uid="uid://f0e0w5u1smnv" path="res://Imported/Textures/Seedbag_m.png" id="1_20i8p"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/Inventory.gd" id="1_v522i"]
 [ext_resource type="Texture2D" uid="uid://cnivm63sdivnq" path="res://Imported/Textures/Pot_m.png" id="1_x310a"]
 [ext_resource type="Script" path="res://Scripts/InventoryItems/Placeable.gd" id="2_1fdn0"]
 [ext_resource type="Script" path="res://Scripts/Essentials/Inventory/Data/InventorySlotData.gd" id="2_jl3fl"]
 [ext_resource type="Script" path="res://Scripts/InventoryItems/Seedbag.gd" id="5_lnaqk"]
-
-[sub_resource type="Resource" id="Resource_las50"]
-script = ExtResource("1_0up5o")
-name = "aaaa"
-description = null
-max_stack_size = 99
-value = 0
-
-[sub_resource type="Resource" id="Resource_e4q1y"]
-script = ExtResource("2_jl3fl")
-item_data = SubResource("Resource_las50")
-stack_count = 0
 
 [sub_resource type="Resource" id="Resource_gfejt"]
 script = ExtResource("2_1fdn0")
@@ -27,11 +14,13 @@ icon = ExtResource("1_x310a")
 description = null
 max_stack_size = 99
 value = 0
+essential = true
 
 [sub_resource type="Resource" id="Resource_0wy36"]
 script = ExtResource("2_jl3fl")
 item_data = SubResource("Resource_gfejt")
 stack_count = 101
+interactable = true
 
 [sub_resource type="Resource" id="Resource_xu1dd"]
 script = ExtResource("5_lnaqk")
@@ -40,12 +29,15 @@ icon = ExtResource("1_20i8p")
 description = "Bapple seed"
 max_stack_size = 99
 value = 0
+essential = false
 
 [sub_resource type="Resource" id="Resource_qfe0k"]
 script = ExtResource("2_jl3fl")
 item_data = SubResource("Resource_xu1dd")
 stack_count = 33
+interactable = true
 
 [resource]
 script = ExtResource("1_v522i")
-items = Array[ExtResource("2_jl3fl")]([SubResource("Resource_e4q1y"), null, null, null, null, SubResource("Resource_0wy36"), SubResource("Resource_qfe0k"), null, null, null, null, null, null, null, null])
+can_receive_essential_items = true
+items = Array[ExtResource("2_jl3fl")]([null, null, null, null, SubResource("Resource_0wy36"), SubResource("Resource_qfe0k"), null, null, null, null, null, null, null, null, null])

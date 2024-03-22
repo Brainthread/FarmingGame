@@ -3,15 +3,17 @@ class_name InventoryInterface
 
 @onready var inventory_panel:InventoryPanel = $Inventory/InventoryPanel
 @onready var inventory_holder:Node2D = $Inventory
-@onready var hotbar_panel = $Hotbar
 @onready var grabbed_ui_slot:PanelContainer = $Inventory/GrabbedSlot
 @onready var trash_panel:PanelContainer = $Inventory/TrashPanel
+@onready var hotbar_panel = $Inventory/Hotbar
+
+@onready var hotbar_inventory:Inventory
 
 @export var mouse_offset:Vector2 = Vector2(5,5)
 @export var selected_hotbar_icon:Texture2D
 @export var trash_icon:Texture2D
 
-var trash_inventory
+var trash_inventory:Inventory
 
 var inventories:Array[Inventory]
 var inventorypanel:Array[InventoryPanel]
@@ -40,10 +42,8 @@ func initialize_trash():
 		trash_inventory = Inventory.new()
 		trash_inventory.initialize_empty_inventory(1)
 	trash_inventory.inventory_interact.connect(on_inventory_interact)
-	
 
-
-func _process(delta):
+func _process(_delta):
 	if grabbed_ui_slot.visible:
 		grabbed_ui_slot.global_position = get_global_mouse_position() + mouse_offset
 
@@ -85,13 +85,10 @@ func on_inventory_interact(inventory: Inventory, index:int, button:int):
 				inventory.clear_slot(index)
 			grabbed_slot = inventory.drop_slot(index, grabbed_slot)
 		[_, MOUSE_BUTTON_RIGHT]:
-			if inventory.stack_space_for_item(index, grabbed_slot.item_data) > 0:
-				inventory.add_item_at(index, grabbed_slot.item_data, 1)
-				grabbed_slot.stack_count-=1
-				if grabbed_slot.stack_count == 0:
-					grabbed_slot.item_data = null
+			inventory.drop_single_item(index, grabbed_slot)
+			if grabbed_slot.stack_count == 0:
+				grabbed_slot.item_data = null
 	update_grabbed_slot()
-
 
 func set_slot_background_icon(index:int, icon:Texture2D):
 	inventory_panel.set_slot_background_icon(index, icon)
@@ -137,5 +134,9 @@ func set_player_inventory_data(player_inventory:Inventory):
 func set_inventory_data(inventory: Inventory, target_panel:InventoryPanel):
 	target_panel.set_inventory_data(inventory)
 
+func save_inventory ():
+	#Save Main
+	#Save Auxiliary
+	pass
 
 

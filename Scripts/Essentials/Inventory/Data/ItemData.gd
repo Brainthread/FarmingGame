@@ -6,3 +6,4 @@ class_name ItemData
 @export_multiline var description
 @export var max_stack_size: int = 99
 @export var value: int
+@export var essential:bool = false
